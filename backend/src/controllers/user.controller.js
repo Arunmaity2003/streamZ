@@ -120,12 +120,12 @@ const getFriendRequest = async (req,res) => {
             status: "pending"
         }).populate("sender","fullName profilePic nativeLanguage learningLanguage")
 
-        const acceptedReq = await FriendRequest.find({
-            recipient: req.user.id,
+        const acceptedReqs = await FriendRequest.find({
+            sender: req.user.id,
             status: "accepted"
-        }).populate("sender","fullName profilePic")
+        }).populate("recipient","fullName profilePic")
 
-        res.status(200).json({ incomingReqs,acceptedReq })
+        res.status(200).json({ incomingReqs,acceptedReqs })
     } catch (error) {
         console.log("error in getFriendRequest controller")
         res.status(500).json({ message: "Internal server error" })
